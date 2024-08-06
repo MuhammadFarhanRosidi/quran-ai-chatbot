@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     ar: DataTypes.STRING,
     tr: DataTypes.STRING,
     idn: DataTypes.STRING,
-    ChapterId: DataTypes.INTEGER
+    chapterId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Verse',

@@ -18,7 +18,7 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      ChapterId: {
+      chapterId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

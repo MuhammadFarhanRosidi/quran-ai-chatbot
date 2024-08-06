@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UserCourses.init({
-    UserId: DataTypes.INTEGER,
-    CourseId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
+    courseId: DataTypes.INTEGER,
     isSubscribe: DataTypes.BOOLEAN
   }, {
     sequelize,
