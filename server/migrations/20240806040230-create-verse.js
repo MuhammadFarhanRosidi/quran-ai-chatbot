@@ -13,13 +13,13 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       ar: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT("long"),
       },
       tr: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT("long"),
       },
       idn: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT("long"),
       },
       chapterId: {
         type: Sequelize.INTEGER,

@@ -10,7 +10,7 @@ router.use(authentication);
 
 router.get("/courses", Controller.showCourses);
 router.get("/my-courses", Controller.showMyCourses);
-router.post("/joinCourse/:id", Controller.handleJoinCourse);
+router.post("/joinCourse/:courseId", Controller.handleJoinCourse);
 router.post("/myFavouriteCourse/:id", Controller.handleAddFavouriteCourse);
 router.put("/myFavouriteCourse/:id", Controller.handleEditFavouriteCourse);
 router.delete("/myFavouriteCourse/:id", Controller.handleDeleteFavouriteCourse);

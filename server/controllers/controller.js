@@ -1,7 +1,7 @@
 const instance = require("../config/axiosInstance");
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const { User, Chapter, Verse, Course } = require("../models/");
+const { User, Chapter, Verse, Course, UserCourse } = require("../models/");
 
 class Controller {
   static async register(req, res, next) {
@@ -60,7 +60,15 @@ class Controller {
   }
   static async showMyCourses(req, res, next) {
     try {
-      const data = await Course.findAll();
+      const userId = req.user.id;
+      const data = await User.findByPk(userId, {
+        include: {
+          model: Course,
+          throught: {
+            attributes: [],
+          },
+        },
+      });
       res.status(200).json(data);
     } catch (error) {
       next(error);
@@ -68,11 +76,54 @@ class Controller {
   }
   static async handleJoinCourse(req, res, next) {
     try {
-      const data = await Course.create();
+      const { courseId } = req.params;
+      const userId = req.user.id;
+
+      // Mendapatkan data course dari API eksternal
+      const courseByIdResponse = await instance({
+        url: `/${courseId}`,
+        method: "GET",
+      });
+      const courseById = courseByIdResponse.data;
+      console.log(courseById);
+
+      // Pastikan bahwa chapter ada di database sebelum membuat course
+      const [chapter, chapterCreated] = await Chapter.findOrCreate({
+        where: { id: courseById.nomor },
+        defaults: {
+          nama: courseById.nama,
+          namaLatin: courseById.nama_latin,
+          jumlahAyat: courseById.jumlah_ayat,
+          tempatTurun: courseById.tempat_turun,
+          arti: courseById.arti,
+          deskripsi: courseById.deskripsi,
+          audioUrl: courseById.audio,
+        },
+      });
+
+      // Simpan data course ke dalam database
+      const [course, created] = await Course.findOrCreate({
+        where: { chapterId: chapter.id },
+        defaults: {
+          title: courseById.nama,
+          description: courseById.deskripsi,
+          chapterId: chapter.id,
+        },
+      });
+
+      // Masukkan data ke dalam tabel UserCourses
+      await UserCourse.create({
+        userId,
+        courseId: course.id,
+        isSubscribe: false,
+      });
+
+      res.status(201).json({ message: "Course successfully added to user" });
     } catch (error) {
       next(error);
     }
   }
+
   static async handleAddFavouriteCourse(req, res, next) {
     try {
     } catch (error) {
