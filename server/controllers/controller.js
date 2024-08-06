@@ -1,6 +1,7 @@
+const instance = require("../config/axiosInstance");
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const { User } = require("../models/");
+const { User, Chapter, Verse, Course } = require("../models/");
 
 class Controller {
   static async register(req, res, next) {
@@ -41,6 +42,51 @@ class Controller {
       }
       const access_token = signToken({ id: foundUser.id });
       res.status(200).json({ access_token });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async showCourses(req, res, next) {
+    try {
+      const { data } = await instance({
+        url: "/",
+        method: "GET",
+      });
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showMyCourses(req, res, next) {
+    try {
+      const data = await Course.findAll();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async handleJoinCourse(req, res, next) {
+    try {
+      const data = await Course.create();
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async handleAddFavouriteCourse(req, res, next) {
+    try {
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async handleEditFavouriteCourse(req, res, next) {
+    try {
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async handleDeleteFavouriteCourse(req, res, next) {
+    try {
     } catch (error) {
       next(error);
     }

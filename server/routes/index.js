@@ -8,12 +8,12 @@ router.post("/login", Controller.login);
 
 router.use(authentication);
 
-router.get("/courses", () => {});
-router.get("/my-courses", () => {});
-router.post("/joinCourse/:id", () => {});
-router.post("/myFavouriteCourse/:id", () => {});
-router.put("/myFavouriteCourse/:id", () => {});
-router.delete("/myFavouriteCourse/:id", () => {});
+router.get("/courses", Controller.showCourses);
+router.get("/my-courses", Controller.showMyCourses);
+router.post("/joinCourse/:id", Controller.handleJoinCourse);
+router.post("/myFavouriteCourse/:id", Controller.handleAddFavouriteCourse);
+router.put("/myFavouriteCourse/:id", Controller.handleEditFavouriteCourse);
+router.delete("/myFavouriteCourse/:id", Controller.handleDeleteFavouriteCourse);
 
 router.use(errorHandler);
 
