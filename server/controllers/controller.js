@@ -74,20 +74,27 @@ class Controller {
       next(error);
     }
   }
+  static async showDetailCourse(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { data } = await instance({
+        method: "GET",
+        url: `/${id}`,
+      });
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
   static async handleJoinCourse(req, res, next) {
     try {
       const { courseId } = req.params;
       const userId = req.user.id;
-
-      // Mendapatkan data course dari API eksternal
       const courseByIdResponse = await instance({
         url: `/${courseId}`,
         method: "GET",
       });
       const courseById = courseByIdResponse.data;
-      console.log(courseById);
-
-      // Pastikan bahwa chapter ada di database sebelum membuat course
       const [chapter, chapterCreated] = await Chapter.findOrCreate({
         where: { id: courseById.nomor },
         defaults: {
@@ -100,8 +107,6 @@ class Controller {
           audioUrl: courseById.audio,
         },
       });
-
-      // Simpan data course ke dalam database
       const [course, created] = await Course.findOrCreate({
         where: { chapterId: chapter.id },
         defaults: {
@@ -110,34 +115,48 @@ class Controller {
           chapterId: chapter.id,
         },
       });
-
-      // Masukkan data ke dalam tabel UserCourses
       await UserCourse.create({
         userId,
         courseId: course.id,
         isSubscribe: false,
       });
-
       res.status(201).json({ message: "Course successfully added to user" });
     } catch (error) {
       next(error);
     }
   }
+  static async handleEditCourse(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { description } = req.body;
+      const [updated] = await Course.update(
+        { description },
+        {
+          where: { id },
+        }
+      );
+      if (updated) {
+        const updatedCourse = await Course.findOne({ where: { id } });
+        res.status(200).json({ message: updatedCourse });
+      } else {
+        res.status(404).json({ message: "Course not found" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  static async handleAddFavouriteCourse(req, res, next) {
+  static async handleDeleteCourse(req, res, next) {
     try {
-    } catch (error) {
-      next(error);
-    }
-  }
-  static async handleEditFavouriteCourse(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-  static async handleDeleteFavouriteCourse(req, res, next) {
-    try {
+      const { id } = req.params;
+      const deleted = await Course.destroy({
+        where: { id },
+      });
+      if (deleted) {
+        res.status(200).json({ message: "Course successfully deleted" });
+      } else {
+        res.status(404).json({ message: "Course not found" });
+      }
     } catch (error) {
       next(error);
     }
