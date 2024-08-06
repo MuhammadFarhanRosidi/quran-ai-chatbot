@@ -2,30 +2,33 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Courses", {
+    await queryInterface.createTable("UserCourses", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
-        type: Sequelize.STRING,
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      price: {
-        type: Sequelize.INTEGER,
-      },
-      chapterId: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Chapters",
+          model: "Users",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+      },
+      courseId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Courses",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      isSubscribe: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Courses");
+    await queryInterface.dropTable("UserCourses");
   },
 };
