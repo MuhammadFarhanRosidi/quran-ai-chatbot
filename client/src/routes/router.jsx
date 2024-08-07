@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <Register />,
     loader: () => {
       if (localStorage.access_token) {
-        redirect("/");
+        return redirect("/");
       }
       return null;
     },
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     element: <Login />,
     loader: () => {
       if (localStorage.access_token) {
-        redirect("/");
+        return redirect("/");
       }
       return null;
     },
@@ -36,48 +36,28 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    // loader: () => {
-    //   if (!localStorage.access_token) {
-    //     redirect("/login");
-    //   }
-    //   return null;
-    // },
+    loader: () => {
+      if (!localStorage.access_token) {
+        return redirect("/login");
+      }
+      return null;
+    },
     children: [
       {
         path: "",
         element: <Courses />,
-        // loader: () => {
-        //   if (!localStorage.access_token) {
-        //   }
-        //   redirect("/login");
-        // },
       },
       {
         path: "myCourses",
         element: <MyCourses />,
-        // loader: () => {
-        //   if (!localStorage.access_token) {
-        //   }
-        //   redirect("/login");
-        // },
       },
       {
         path: "detailCourse",
         element: <DetailCourse />,
-        // loader: () => {
-        //   if (!localStorage.access_token) {
-        //   }
-        //   redirect("/login");
-        // },
       },
       {
         path: "editCourse",
         element: <EditCourse />,
-        // loader: () => {
-        //   if (!localStorage.access_token) {
-        //   }
-        //   redirect("/login");
-        // },
       },
     ],
   },
