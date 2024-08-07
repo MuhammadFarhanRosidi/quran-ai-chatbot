@@ -15,7 +15,7 @@ export default function Courses() {
       });
       setCourses(data);
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error.response ? error.response.data.message : error.message);
     }
   }
   useEffect(() => {

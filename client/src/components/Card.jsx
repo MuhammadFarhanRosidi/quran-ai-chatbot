@@ -12,7 +12,6 @@ export default function Card({ courses }) {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
-      console.log(data, "<<<<");
       navigte("/myCourses");
     } catch (error) {
       console.log(error.response.data.message);
