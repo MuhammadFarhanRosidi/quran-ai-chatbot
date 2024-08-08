@@ -123,7 +123,7 @@ class Controller {
       const { id } = req.params;
       const { data } = await instance({
         method: "GET",
-        url: `/${id}`,
+        url: `/surah/${id}`,
       });
       res.status(200).json(data);
     } catch (error) {
