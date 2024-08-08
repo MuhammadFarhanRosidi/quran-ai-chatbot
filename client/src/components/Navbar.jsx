@@ -22,6 +22,14 @@ export default function Navbar() {
           My Courses
         </Link>
       </div>
+      <div>
+        <Link
+          to={"/quran-chatbot"}
+          className="btn btn-ghost text-xl text-white"
+        >
+          Quran Chatbot
+        </Link>
+      </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>

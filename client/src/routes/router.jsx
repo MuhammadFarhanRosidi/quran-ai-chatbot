@@ -7,6 +7,7 @@ import Courses from "../pages/Courses";
 import MyCourses from "../pages/MyCourses";
 import DetailCourse from "../pages/DetailCourse";
 import EditCourse from "../pages/EditCourse";
+import QuranChatbot from "../pages/QuranChatbot";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "editCourse/:id",
         element: <EditCourse />,
+      },
+      {
+        path: "quran-chatbot",
+        element: <QuranChatbot />,
       },
     ],
   },
