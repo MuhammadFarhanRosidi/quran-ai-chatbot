@@ -113,7 +113,11 @@ class Controller {
           },
         },
       });
-      res.status(200).json(data);
+      res.status(200).json({
+        id: data.id,
+        username: data.username,
+        Courses: data.Courses,
+      });
     } catch (error) {
       next(error);
     }
