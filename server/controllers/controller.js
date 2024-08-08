@@ -2,6 +2,7 @@ const instance = require("../config/axiosInstance");
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
 const { User, Chapter, Verse, Course, UserCourse } = require("../models/");
+const { OAuth2Client } = require("google-auth-library");
 
 class Controller {
   static async register(req, res, next) {
@@ -43,6 +44,38 @@ class Controller {
       const access_token = signToken({ id: foundUser.id });
       res.status(200).json({ access_token });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      if (!req.body.googleToken) {
+        throw { name: "MissingGoogleToken" };
+      }
+      const client = new OAuth2Client();
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.googleToken,
+        audience:
+          "287364404368-f49dj7sv08k07ld12oouc1u9u9n64q16.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+      });
+
+      const { email } = ticket.getPayload();
+      const [user] = await User.findOrCreate({
+        where: { email: email },
+        defaults: {
+          username: email,
+          email: email,
+          password:
+            Date.now().toString() + "-DUMMY-" + Math.random().toFixed(0),
+        },
+      });
+      const access_token = signToken({ id: user.id });
+      res.status(200).json({ access_token });
+    } catch (error) {
+      console.log(error, "<<<<<<");
       next(error);
     }
   }

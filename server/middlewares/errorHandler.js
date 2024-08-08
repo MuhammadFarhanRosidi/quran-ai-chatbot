@@ -8,6 +8,10 @@ function errorHandler(err, req, res, next) {
       status = 401;
       message = "Invalid Token";
       break;
+    case "MissingGoogleToken":
+      status = 401;
+      message = "Login Failed";
+      break;
     case "Forbidden":
       status = 403;
       message = "Forbidden";

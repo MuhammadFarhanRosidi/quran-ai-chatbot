@@ -6,6 +6,7 @@ const router = require("express").Router();
 
 router.post("/register", Controller.register);
 router.post("/login", Controller.login);
+router.post("/google-login", Controller.googleLogin);
 
 router.post("/quran-chatbot", async (req, res, next) => {
   try {
