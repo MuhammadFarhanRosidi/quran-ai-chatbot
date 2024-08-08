@@ -1,53 +1,75 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=15442582&assignment_repo_type=AssignmentRepo)
 
-# P2-Challenge-1 (Server Side)
+# P2-Individual Project (Server and Client Side)
 
-> Tuliskan API Docs kamu di sini
-
-# Restaurant API Documentation
+# My Quran
 
 #### Link Access
 
 ```json
-https://graded1p2.farhanrosidi.online/pub/cuisines
+https:
 ```
 
 ## Endpoint:
 
 List of available endpoints:
 
-- <code>GET /pub/cuisines</code>
-- <code>GET /pub/cuisines/:id</code>
+- <code>POST /register</code>
 - <code>POST /login</code>
-- <code>POST /add-user</code>
-- <code>POST /cuisines</code>
-- <code>GET /cuisines</code>
-- <code>GET /cuisines/:id</code>
-- <code>PUT /cuisines/:id</code>
-- <code>DELETE /cuisines/:id</code>
-- <code>POST /categories</code>
-- <code>GET /categories</code>
-- <code>PUT /categories/:id</code>
-- <code>DELETE /categories/:id</code>
-- <code>PATCH /cuisines/:id/imgUrl</code>
+- <code>POST /google-login</code>
+- <code>POST /quran-chatbot</code>
+- <code>GET /courses</code>
+- <code>GET /my-courses</code>
+- <code>GET /detailCourse/:id</code>
+- <code>POST /joinCourse/:courseId</code>
+- <code>GET /editMyCourse/:id</code>
+- <code>PUT /editMyCourse/:id</code>
+- <code>DELETE /deleteMyCourse/:id</code>
 
-## 1. GET /pub/cuisines
+## 1. POST /register
 
 Request:
 
-- query:
+- body:
 
 ```json
 {
-  "filter": 1,
-  OR
-  "sort": "<item>",
-  OR
-  "page[number]": 1,
-  OR
-  "page[size]": 2,
-  OR
-  "search": "<item_name>"
+  "username": "string",
+  "email": "user@mail.com",
+  "password": "string"
+}
+```
+
+_Response (201 - Created)_
+
+```json
+{
+    "id": number,
+    "username": "string",
+    "email": "user@mail.com"
+}
+```
+
+_Response (400 - Bad Request)_
+
+```json
+{
+  "message": ["Format must be an email"]
+}
+```
+
+&nbsp;
+
+## 2. POST /login
+
+Request:
+
+- body:
+
+```json
+{
+  "email": "string",
+  "password": "string"
 }
 ```
 
@@ -55,78 +77,21 @@ _Response (200 - OK)_
 
 ```json
 {
-  "page": 1,
-  "data": [
-    {
-      "id": 11,
-      "name": "Big Mac Deluxe",
-      "description": "A double-layered burger with lettuce, cheese, pickles, onions, and special sauce.",
-      "price": 5000,
-      "imgUrl": "https://example.com/images/bigmac.jpg",
-      "categoryId": 1,
-      "authorId": 1,
-      "createdAt": "2024-07-23T09:31:11.414Z",
-      "updatedAt": "2024-07-23T09:31:11.414Z"
-    },
-    {
-      "id": 10,
-      "name": "Big Mac Deluxe",
-      "description": "A double-layered burger with lettuce, cheese, pickles, onions, and special sauce.",
-      "price": 5000,
-      "imgUrl": "https://example.com/images/bigmac.jpg",
-      "categoryId": 1,
-      "authorId": 1,
-      "createdAt": "2024-07-23T09:31:10.533Z",
-      "updatedAt": "2024-07-23T09:31:10.533Z"
-    }
-  ],
-  "totalData": 6,
-  "totalPage": 3,
-  "dataPerPage": 2
+  "access_token": "string"
+}
+```
+
+_Response (400 - Bad Request)_
+
+```json
+{
+  "message": "Email and Password is required"
 }
 ```
 
 &nbsp;
 
-## 2. GET /pub/cuisines/:id
-
-Request:
-
-- params:
-
-```json
-{
-  "id": 1
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "id": 1,
-  "name": "Big Mac Hello testing",
-  "description": "A double-layered burger with lettuce, cheese, pickles, onions, and special sauce.",
-  "price": 500000,
-  "imgUrl": "https://example.com/images/bigmac.jpg",
-  "categoryId": 1,
-  "authorId": 1,
-  "createdAt": "2024-07-22T10:14:31.878Z",
-  "updatedAt": "2024-07-22T13:32:39.039Z"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Data Not Found"
-}
-```
-
-&nbsp;
-
-## 3. POST /login
+## 3. POST /google-login
 
 Description:
 
@@ -169,7 +134,7 @@ _Response (401 - Unauthorized)_
 
 &nbsp;
 
-## 4. POST /add-user
+## 4. POST /quran-chatbot
 
 Description:
 
@@ -230,11 +195,11 @@ _Response (403 - Forbidden)_
 
 &nbsp;
 
-## 5. POST /cuisines
+## 5. GET /courses
 
 Description:
 
-- Add cuisine
+- Show All Chapters
 
 Request:
 
@@ -246,74 +211,39 @@ Request:
 }
 ```
 
-- body:
-
-```json
-{
-  "name": "Big Mac",
-  "description": "A double-layered burger with lettuce, cheese, pickles, onions, and special sauce.",
-  "price": 50000,
-  "imgUrl": "https://example.com/images/bigmac.jpg",
-  "categoryId": 1,
-  "authorId": 1
-}
-```
-
 _Response (201 - CREATED)_
 
 ```json
 {
-  "id": 11,
-  "name": "Big Mac Deluxe",
-  "description": "A double-layered burger with lettuce, cheese, pickles, onions, and special sauce.",
-  "price": 5000,
-  "imgUrl": "https://example.com/images/bigmac.jpg",
-  "categoryId": 1,
-  "authorId": 1,
-  "updatedAt": "2024-07-22T22:39:27.621Z",
-  "createdAt": "2024-07-22T22:39:27.621Z"
-}
-```
-
-_Response (400 - Bad Request)_
-
-```json
-{
-  "message": "Please enter your name"
-}
-OR
-{
-  "message": "Please enter your description"
-}
-OR
-{
-  "message": "Please enter your price"
-}
-OR
-{
-  "message": "Minimum price is 5000"
-}
-OR
-{
-  "message": "Please enter your url image"
-}
-OR
-{
-  "message": "Please enter your category id"
-}
-OR
-{
-  "message": "Please enter your author id"
+    "chapters": [
+        {
+            "number": 1,
+            "name": {
+                "arab": "الفاتحة",
+                "translation": "Pembukaan"
+            },
+            "tafsir": "Surat Al Faatihah (Pembukaan) yang diturunkan di Mekah dan terdiri dari 7 ayat adalah surat yang pertama-tama diturunkan dengan lengkap  diantara surat-surat yang ada dalam Al Quran dan termasuk golongan surat Makkiyyah. Surat ini disebut Al Faatihah (Pembukaan), karena dengan surat inilah dibuka dan dimulainya Al Quran. Dinamakan Ummul Quran (induk Al Quran) atau Ummul Kitaab (induk Al Kitaab) karena dia merupakan induk dari semua isi Al Quran, dan karena itu diwajibkan membacanya pada tiap-tiap sembahyang. Dinamakan pula As Sab'ul matsaany (tujuh yang berulang-ulang) karena ayatnya tujuh dan dibaca berulang-ulang dalam sholat."
+        },
+        {
+            "number": 2,
+            "name": {
+                "arab": "البقرة",
+                "translation": "Sapi"
+            },
+            "tafsir": "Surat Al Baqarah yang 286 ayat itu turun di Madinah yang sebahagian besar diturunkan pada permulaan tahun Hijrah, kecuali ayat 281 diturunkan di Mina pada Hajji wadaa' (hajji Nabi Muhammad s.a.w. yang terakhir). Seluruh ayat dari surat Al Baqarah termasuk golongan Madaniyyah, merupakan surat yang terpanjang di antara surat-surat Al Quran yang di dalamnya terdapat pula ayat yang terpancang (ayat 282). Surat ini dinamai Al Baqarah karena di dalamnya disebutkan kisah penyembelihan sapi betina yang diperintahkan Allah kepada Bani Israil (ayat 67 sampai dengan 74), dimana dijelaskan watak orang Yahudi pada umumnya. Dinamai Fusthaatul-Quran (puncak Al Quran) karena memuat beberapa hukum yang tidak disebutkan dalam surat yang lain. Dinamai juga surat  alif-laam-miim karena surat ini dimulai dengan Alif-laam-miim."
+        },
+        ...
+    ]
 }
 ```
 
 &nbsp;
 
-## 6. GET /cuisines
+## 6. GET /my-courses
 
 Description:
 
-- Show All Cuisines
+- Show My Courses
 
 Request:
 
@@ -328,69 +258,131 @@ Request:
 _Response (200 - OK)_
 
 ```json
-[
-  {
-    "id": 2,
-    "name": "Chicken McNuggets",
-    "description": "Crispy, tender pieces of chicken served with your choice of dipping sauces.",
-    "price": 30000,
-    "imgUrl": "https://example.com/images/mcnuggets.jpg",
-    "categoryId": 2,
-    "authorId": 2,
-    "createdAt": "2024-07-22T10:14:31.878Z",
-    "updatedAt": "2024-07-22T10:14:31.878Z",
-    "User": {
-      "id": 2,
-      "username": "jane_smith",
-      "email": "jane_smith@example.com",
-      "role": "staff",
-      "phoneNumber": "082345678901",
-      "address": "Jl. Kemerdekaan No.2, Surabaya",
-      "createdAt": "2024-07-22T10:14:31.873Z",
-      "updatedAt": "2024-07-22T10:14:31.873Z"
+{
+    "id": 1,
+    "username": "farhan",
+    "Courses": [
+        {
+            "id": 8,
+            "title": "الماۤئدة",
+            "description": "Surat Almaidah ayat ke 5 aku paling suka",
+            "price": null,
+            "chapterId": 5,
+            "createdAt": "2024-08-07T10:17:21.908Z",
+            "updatedAt": "2024-08-08T03:58:35.422Z",
+            "UserCourse": {
+                "userId": 1,
+                "courseId": 8,
+                "isSubscribe": false,
+                "createdAt": "2024-08-07T10:17:21.910Z",
+                "updatedAt": "2024-08-07T10:17:21.910Z"
+            }
+        },
+        ...
+    ]
+}
+```
+
+&nbsp;
+
+## 7. GET /detailCourse/:id
+
+Description:
+
+- Get detail course by id
+
+Request:
+
+- headers:
+
+```json
+{
+  "Authorization": "Bearer <your access token>"
+}
+```
+
+- params:
+
+```json
+ "id": 1
+```
+
+_Response (200 - OK)_
+
+```json
+{
+    "code": 200,
+    "status": "OK.",
+    "message": "Success fetching surah.",
+    "data": {
+        "number": 1,
+        "sequence": 5,
+        "numberOfVerses": 7,
+        "name": {
+            "short": "الفاتحة",
+            "long": "سُورَةُ ٱلْفَاتِحَةِ",
+            "transliteration": {
+                "en": "Al-Faatiha",
+                "id": "Al-Fatihah"
+            },
+            "translation": {
+                "en": "The Opening",
+                "id": "Pembukaan"
+            }
+        },
+        "revelation": {
+            "arab": "مكة",
+            "en": "Meccan",
+            "id": "Makkiyyah"
+        },
+        "tafsir": {
+            "id": "string"
+        },
+        "preBismillah": null,
+        "verses": [
+            {
+                "number": {
+                    "inQuran": 1,
+                    "inSurah": 1
+                },
+                "meta": {
+                    "juz": 1,
+                    "page": 1,
+                    "manzil": 1,
+                    "ruku": 1,
+                    "hizbQuarter": 1,
+                    "sajda": {
+                        "recommended": false,
+                        "obligatory": false
+                    }
+                },
+                "text": {
+                    "arab": "string",
+                    "transliteration": {
+                        "en": "string"
+                    }
+                },
+                "translation": {
+                    "en": "string",
+                    "id": "string"
+                },
+                "audio": {
+                    "primary": "string",
+                    "secondary": [
+                        "string",
+                        "string"
+                    ]
+                },
+                "tafsir": {
+                    "id": {
+                        "short": "string",
+                        "long": "string"
+                    }
+                }
+            },
+            ...
+        ]
     }
-  }
-  ...
-]
-```
-
-&nbsp;
-
-## 7. GET /cuisines/:id
-
-Description:
-
-- Get cuisine by id
-
-Request:
-
-- headers:
-
-```json
-{
-  "Authorization": "Bearer <your access token>"
-}
-```
-
-- params:
-
-```json
- "id": 4
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "id": 4,
-  "name": "Caesar Salad",
-  "description": "A fresh salad with romaine lettuce, Parmesan cheese, and Caesar dressing.",
-  "price": 35000,
-  "imgUrl": "https://example.com/images/caesarsalad.jpg",
-  "categoryId": 4,
-  "authorId": 4,
-  "createdAt": "2024-07-22T10:14:31.878Z",
-  "updatedAt": "2024-07-22T10:14:31.878Z"
 }
 ```
 
@@ -404,11 +396,11 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 8. PUT /cuisines/:id
+## 8. POST /joinCourse/:courseId
 
 Description:
 
-- Update cuisine by id
+- Add Course by id
 
 Request:
 
@@ -424,97 +416,25 @@ Request:
 
 ```json
 {
-  "id": 5
+  "id": 1
 }
 ```
 
-- body:
+_Response (201 - Created)_
 
 ```json
 {
-  "id": 5,
-  "name": "McFlurry Enak",
-  "description": "Creamy soft serve ice cream mixed with your choice of toppings.",
-  "price": 20000,
-  "imgUrl": "https://example.com/images/mcflurry.jpg",
-  "categoryId": 5,
-  "authorId": 5,
-  "createdAt": "2024-07-22T10:14:31.878Z",
-  "updatedAt": "2024-07-22T22:51:01.914Z"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "id": 5,
-  "name": "McFlurry Enak Lezat",
-  "description": "Creamy soft serve ice cream mixed with your choice of toppings.",
-  "price": 20000,
-  "imgUrl": "https://example.com/images/mcflurry.jpg",
-  "categoryId": 5,
-  "authorId": 5,
-  "createdAt": "2024-07-22T10:14:31.878Z",
-  "updatedAt": "2024-07-22T22:51:01.914Z"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "error not found"
-}
-```
-
-_Response (403 - Forbidden)_
-
-```json
-{
-  "message": "Forbidden"
-}
-```
-
-_Response (400 - Bad Request)_
-
-```json
-{
-  "message": "Please enter your name"
-}
-OR
-{
-  "message": "Please enter your description"
-}
-OR
-{
-  "message": "Please enter your price"
-}
-OR
-{
-  "message": "Minimum price is 5000"
-}
-OR
-{
-  "message": "Please enter your url image"
-}
-OR
-{
-  "message": "Please enter your category id"
-}
-OR
-{
-  "message": "Please enter your author id"
+  "message": "Course successfully added to user"
 }
 ```
 
 &nbsp;
 
-## 9. DELETE /cuisines/:id
+## 9. GET /editMyCourse/:id
 
 Description:
 
-- Delete cuisine by id
+- Get Data Edit My Course by id
 
 Request:
 
@@ -530,82 +450,85 @@ Request:
 
 ```json
 {
-  "id": integer,
+  "id": 1
 }
 ```
 
 _Response (200 - OK)_
-
-```json
-{
-  "message": "Big Mac Deluxe success to delete"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Data not found"
-}
-```
-
-_Response (403 - Forbidden)_
-
-```json
-{
-  "message": "Forbidden"
-}
-```
-
-&nbsp;
-
-## 10. POST /categories
-
-Description:
-
-- Add category
-
-Request:
-
-- headers:
-
-```json
-{
-  "Authorization": "Bearer <your access token>"
-}
-```
-
-- body:
-
-```json
-{
-  "name": "string"
-}
-```
-
-_Response (201 - CREATED)_
 
 ```json
 {
   "id": 8,
-  "name": "Rice Bowl",
-  "updatedAt": "2024-07-22T22:57:38.715Z",
-  "createdAt": "2024-07-22T22:57:38.715Z"
+  "title": "الماۤئدة",
+  "description": "Surat Almaidah ayat ke 5 aku paling suka",
+  "price": null,
+  "chapterId": 5,
+  "createdAt": "2024-08-07T10:17:21.908Z",
+  "updatedAt": "2024-08-08T03:58:35.422Z"
 }
 ```
 
-_Response (400 - Bad Request)_
+_Response (404 - Not Found)_
 
 ```json
 {
-  "message": "Please enter your category"
+  "message": "Data not found"
 }
 ```
 
 &nbsp;
 
-## 11. GET /categories
+## 10. PUT /editMyCourse/:id
+
+Description:
+
+- Edit Description of My Course by id
+
+Request:
+
+- headers:
+
+```json
+{
+  "Authorization": "Bearer <your access token>"
+}
+```
+
+- params:
+
+```json
+{
+  "id": 1
+}
+```
+
+- body:
+
+```json
+{
+  "description": "ini surat yang dapat julukan ummul kitab"
+}
+```
+
+_Response (200 - OK)_
+
+```json
+{
+  "message": {
+    "id": 8,
+    "title": "الماۤئدة",
+    "description": "ini surat yang dapat julukan ummul kitab",
+    "price": null,
+    "chapterId": 5,
+    "createdAt": "2024-08-07T10:17:21.908Z",
+    "updatedAt": "2024-08-08T18:44:00.515Z"
+  }
+}
+```
+
+&nbsp;
+
+## 11. DELETE /deleteMyCourse/:id
 
 Description:
 
@@ -624,175 +547,8 @@ Request:
 _Response (200 - OK)_
 
 ```json
-[
-    {
-        "id": 1,
-        "name": "Burger",
-        "createdAt": "2024-07-22T10:14:31.861Z",
-        "updatedAt": "2024-07-22T10:14:31.861Z"
-    }
-    ...
-]
-```
-
-&nbsp;
-
-## 12. PUT /categories/:id
-
-Description:
-
-- Add category
-
-Request:
-
-- headers:
-
-```json
 {
-  "Authorization": "Bearer <your access token>"
-}
-```
-
-- params:
-
-```json
-{
-  "id": integer
-}
-```
-
-- body:
-
-```json
-{
-  "name": "string"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "id": 8,
-  "name": "happy meal",
-  "createdAt": "2024-07-22T22:57:38.715Z",
-  "updatedAt": "2024-07-22T23:01:50.338Z"
-}
-```
-
-_Response (400 - Bad Request)_
-
-```json
-{
-  "message": "Please enter your category"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Data not found"
-}
-```
-
-&nbsp;
-
-## 13. DELETE /categories/:id
-
-Description:
-
-- Delete category by id
-
-Request:
-
-- headers:
-
-```json
-{
-  "Authorization": "Bearer <your access token>"
-}
-```
-
-- params:
-
-```json
-{
-  "id": integer
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "happy meal success to delete"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Data not found"
-}
-```
-
-&nbsp;
-
-## 13. PATCH /cuisines/:id/imgUrl
-
-Description:
-
-- Update imgUrl
-
-Request:
-
-- headers:
-
-```json
-{
-  "Authorization": "Bearer <your access token>"
-}
-```
-
-- params:
-
-```json
-{
-  "id": integer
-}
-```
-
-- data:
-
-```json
-{
-  "avatar": "file"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Image Cuisine success to update"
-}
-```
-
-_Response (400 - Bad Request)_
-
-```json
-{
-  "message": "Please enter your url image"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Data not found"
+  "message": "Course successfully deleted"
 }
 ```
 
@@ -806,6 +562,10 @@ _Response (401 - Unauthorized)_
 {
   "message": "Invalid token"
 }
+OR
+{
+  "message": "Email and Password is invalid"
+}
 ```
 
 _Response (500 - Internal Server Error)_
@@ -813,5 +573,9 @@ _Response (500 - Internal Server Error)_
 ```json
 {
   "message": "Internal server error"
+}
+OR
+{
+    "message": "Request failed with status code 404" //from API
 }
 ```
