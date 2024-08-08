@@ -130,45 +130,95 @@ class Controller {
       next(error);
     }
   }
+  // static async handleJoinCourse(req, res, next) {
+  //   try {
+  //     const { courseId } = req.params;
+  //     const userId = req.user.id;
+  //     const courseByIdResponse = await instance({
+  //       url: `/${courseId}`,
+  //       method: "GET",
+  //     });
+  //     const courseById = courseByIdResponse.data;
+  //     const [chapter, chapterCreated] = await Chapter.findOrCreate({
+  //       where: { id: courseById.number },
+  //       defaults: {
+  //         nama: courseById.nama,
+  //         namaLatin: courseById.nama_latin,
+  //         jumlahAyat: courseById.jumlah_ayat,
+  //         tempatTurun: courseById.tempat_turun,
+  //         arti: courseById.arti,
+  //         deskripsi: courseById.deskripsi,
+  //         audioUrl: courseById.audio,
+  //       },
+  //     });
+  //     const [course, created] = await Course.findOrCreate({
+  //       where: { chapterId: chapter.id },
+  //       defaults: {
+  //         title: courseById.nama,
+  //         description: courseById.deskripsi,
+  //         chapterId: chapter.id,
+  //       },
+  //     });
+  //     await UserCourse.create({
+  //       userId,
+  //       courseId: course.id,
+  //       isSubscribe: false,
+  //     });
+  //     res.status(201).json({ message: "Course successfully added to user" });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
   static async handleJoinCourse(req, res, next) {
     try {
-      const { courseId } = req.params;
+      const { courseId } = req.params; // Menggunakan `number` dari chapter sebagai `courseId`
       const userId = req.user.id;
+
+      // Mendapatkan data course berdasarkan `courseId`
       const courseByIdResponse = await instance({
-        url: `/${courseId}`,
+        url: `/surah/${courseId}`,
         method: "GET",
       });
-      const courseById = courseByIdResponse.data;
+
+      const courseById = courseByIdResponse.data.data; // Sesuaikan dengan struktur data API
+
+      // Simpan data chapter jika belum ada
       const [chapter, chapterCreated] = await Chapter.findOrCreate({
         where: { id: courseById.number },
         defaults: {
-          nama: courseById.nama,
-          namaLatin: courseById.nama_latin,
-          jumlahAyat: courseById.jumlah_ayat,
-          tempatTurun: courseById.tempat_turun,
-          arti: courseById.arti,
-          deskripsi: courseById.deskripsi,
-          audioUrl: courseById.audio,
+          nama: courseById.name.transliteration.id,
+          namaLatin: courseById.name.transliteration.en,
+          jumlahAyat: courseById.numberOfVerses,
+          tempatTurun: courseById.revelation.id,
+          arti: courseById.name.translation.id,
+          deskripsi: courseById.tafsir.id,
+          audioUrl: courseById.verses[0].audio.primary,
         },
       });
+
+      // Simpan data course jika belum ada
       const [course, created] = await Course.findOrCreate({
         where: { chapterId: chapter.id },
         defaults: {
-          title: courseById.nama,
-          description: courseById.deskripsi,
+          title: courseById.name.transliteration.id,
+          description: courseById.tafsir.id,
           chapterId: chapter.id,
         },
       });
+
+      // Buat relasi antara user dan course
       await UserCourse.create({
         userId,
         courseId: course.id,
         isSubscribe: false,
       });
+
       res.status(201).json({ message: "Course successfully added to user" });
     } catch (error) {
       next(error);
     }
   }
+
   static async showEditCourse(req, res, next) {
     try {
       const { id } = req.params;
