@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import instance from "../config/axiosInstance";
 
-export default function Card({ courses }) {
+export default function Card({ chapters }) {
   const navigte = useNavigate();
   async function handlerJoin(id) {
     try {
@@ -21,12 +21,12 @@ export default function Card({ courses }) {
     <div className="card bg-base-100 w-80 shadow-xl pt-5">
       <div className="card-body">
         <h2 className="card-title">
-          {courses.nama_latin} - ({courses.nomor})
+          {chapters.name.arab} - ({chapters.number})
         </h2>
-        <p>{courses.arti}</p>
+        <p>{chapters.name.translation}</p>
         <div className="card-actions">
           <button
-            onClick={() => handlerJoin(courses.nomor)}
+            onClick={() => handlerJoin(chapters.number)}
             className="btn bg-green-800 text-white"
           >
             Add to my course

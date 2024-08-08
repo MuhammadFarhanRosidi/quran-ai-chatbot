@@ -3,7 +3,7 @@ import instance from "../config/axiosInstance";
 import Card from "../components/Card";
 
 export default function Courses() {
-  const [courses, setCourses] = useState([]);
+  const [chapters, setChapters] = useState([]);
   async function showCourses() {
     try {
       const { data } = await instance({
@@ -13,7 +13,7 @@ export default function Courses() {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
-      setCourses(data);
+      setChapters(data.chapters);
     } catch (error) {
       console.log(error.response ? error.response.data.message : error.message);
     }
@@ -24,8 +24,8 @@ export default function Courses() {
   return (
     <div>
       <div className="flex flex-wrap justify-center gap-9">
-        {courses.map((e) => (
-          <Card key={e.nomor} courses={e} />
+        {chapters.map((e) => (
+          <Card key={e.number} chapters={e} />
         ))}
       </div>
     </div>

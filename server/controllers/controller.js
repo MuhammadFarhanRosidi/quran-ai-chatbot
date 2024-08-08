@@ -57,9 +57,7 @@ class Controller {
       const ticket = await client.verifyIdToken({
         idToken: req.body.googleToken,
         audience:
-          "287364404368-f49dj7sv08k07ld12oouc1u9u9n64q16.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
-        // Or, if multiple clients access the backend:
-        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+          "287364404368-f49dj7sv08k07ld12oouc1u9u9n64q16.apps.googleusercontent.com",
       });
 
       const { email } = ticket.getPayload();
@@ -83,14 +81,27 @@ class Controller {
   static async showCourses(req, res, next) {
     try {
       const { data } = await instance({
-        url: "/",
+        url: "/surah",
         method: "GET",
       });
-      res.status(200).json(data);
+
+      const chapters = data.data.map((surah) => ({
+        number: surah.number,
+        name: {
+          arab: surah.name.short,
+          translation: surah.name.translation.id,
+        },
+        tafsir: surah.tafsir.id,
+      }));
+
+      res.status(200).json({
+        chapters,
+      });
     } catch (error) {
       next(error);
     }
   }
+
   static async showMyCourses(req, res, next) {
     try {
       const userId = req.user.id;
@@ -129,7 +140,7 @@ class Controller {
       });
       const courseById = courseByIdResponse.data;
       const [chapter, chapterCreated] = await Chapter.findOrCreate({
-        where: { id: courseById.nomor },
+        where: { id: courseById.number },
         defaults: {
           nama: courseById.nama,
           namaLatin: courseById.nama_latin,
