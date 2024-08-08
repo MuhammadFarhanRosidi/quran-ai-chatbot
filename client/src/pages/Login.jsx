@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../config/axiosInstance";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function Login() {
         },
       });
       localStorage.setItem("access_token", data.access_token);
+      toast.info("LOGIN SUXCSSS");
       navigate("/");
     } catch (error) {
       console.log(error.response.data.message);
