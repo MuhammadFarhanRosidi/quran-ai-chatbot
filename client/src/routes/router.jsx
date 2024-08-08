@@ -52,11 +52,11 @@ const router = createBrowserRouter([
         element: <MyCourses />,
       },
       {
-        path: "detailCourse",
+        path: "detailCourse/:id",
         element: <DetailCourse />,
       },
       {
-        path: "editCourse",
+        path: "editCourse/:id",
         element: <EditCourse />,
       },
     ],

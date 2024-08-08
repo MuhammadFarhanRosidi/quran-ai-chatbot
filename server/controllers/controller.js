@@ -125,6 +125,18 @@ class Controller {
       next(error);
     }
   }
+  static async showEditCourse(req, res, next) {
+    try {
+      const { id } = req.params;
+      const course = await Course.findByPk(id);
+      if (!course) {
+        throw { name: "NotFound", message: "Course not found" };
+      }
+      res.status(200).json(course);
+    } catch (error) {
+      next(error);
+    }
+  }
   static async handleEditCourse(req, res, next) {
     try {
       const { id } = req.params;

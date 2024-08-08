@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyCourses, removeCourse } from "../store/slices/coursesSlice";
 import instance from "../config/axiosInstance";
+import { Link } from "react-router-dom";
 
 export default function MyCourses() {
   const dispatch = useDispatch();
@@ -54,6 +55,12 @@ export default function MyCourses() {
               >
                 See detail
               </button>
+              <Link
+                to={`/editCourse/${e.id}`}
+                className="btn bg-cyan-400 text-white"
+              >
+                Edit
+              </Link>
               <button
                 onClick={() => handleLeave(e.id)}
                 className="btn bg-red-700 text-white"
