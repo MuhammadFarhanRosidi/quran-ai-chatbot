@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../config/axiosInstance";
+import { toast } from "react-toastify";
 
 export default function MyCourses() {
   const [myCourses, setMyCourses] = useState([]);
@@ -22,14 +23,21 @@ export default function MyCourses() {
     handleShowMyCourse();
   }, []);
   async function handleLeave(id) {
-    const { data } = await instance({
-      url: `/deleteMyCourse/${id}`,
-      method: "Delete",
-      headers: {
-        Authorization: `Bearer ${localStorage.access_token}`,
-      },
-    });
-    handleShowMyCourse();
+    try {
+      const { data } = await instance({
+        url: `/deleteMyCourse/${id}`,
+        method: "Delete",
+        headers: {
+          Authorization: `Bearer ${localStorage.access_token}`,
+        },
+      });
+      handleShowMyCourse();
+      toast.success("Leave Course Success");
+    } catch (error) {
+      toast.error("Login Failed");
+      toast.error(error.response.data.message);
+      console.log(error.response.data.message);
+    }
   }
   return (
     <>

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import instance from "../config/axiosInstance";
+import { toast } from "react-toastify";
 
 export default function Card({ chapters }) {
   const navigte = useNavigate();
@@ -12,8 +13,11 @@ export default function Card({ chapters }) {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
+      toast.success("Join Success");
       navigte("/myCourses");
     } catch (error) {
+      toast.error("Join Failed");
+      toast.error(error.response.data.message);
       console.log(error.response.data.message);
     }
   }

@@ -103,6 +103,7 @@ Request:
 
 ```json
 {
+  "username": "string",
   "email": "string",
   "password": "string"
 }
@@ -116,49 +117,21 @@ _Response (200 - OK)_
 }
 ```
 
-_Response (400 - Bad Request)_
-
-```json
-{
-  "message": "Email and Password is required"
-}
-```
-
-_Response (401 - Unauthorized)_
-
-```json
-{
-  "message": "Email and Password is invalid"
-}
-```
-
 &nbsp;
 
 ## 4. POST /quran-chatbot
 
 Description:
 
-- Create a staff by admin
+- Chatbot Gemini AI
 
 Request:
-
-- headers:
-
-```json
-{
-  "Authorization": "Bearer <your access token>"
-}
-```
 
 - body:
 
 ```json
 {
-  "username": "string",
-  "email": "string",
-  "password": "string",
-  "phoneNumber": "string",
-  "address": "string"
+  "verse": "string"
 }
 ```
 
@@ -166,30 +139,7 @@ _Response (200 - OK)_
 
 ```json
 {
-  "id": "string",
-  "username": "string",
-  "email": "string",
-  "role": "string"
-}
-```
-
-_Response (400 - Bad Request)_
-
-```json
-{
-  "email": "Please enter your email"
-}
-OR
-{
-  "password": "Please enter your password"
-}
-```
-
-_Response (403 - Forbidden)_
-
-```json
-{
-  "message": "Forbidden"
+  "response": "string"
 }
 ```
 
@@ -532,7 +482,7 @@ _Response (200 - OK)_
 
 Description:
 
-- Show all categories
+- Delete My Course by id
 
 Request:
 
@@ -549,6 +499,14 @@ _Response (200 - OK)_
 ```json
 {
   "message": "Course successfully deleted"
+}
+```
+
+_Response (404 - Not Found)_
+
+```json
+{
+  "message": "Data is not defind"
 }
 ```
 

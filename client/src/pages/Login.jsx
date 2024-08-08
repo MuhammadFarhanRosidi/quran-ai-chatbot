@@ -19,9 +19,11 @@ export default function Login() {
         },
       });
       localStorage.setItem("access_token", data.access_token);
-      toast.info("LOGIN SUXCSSS");
+      toast.success("Login Success");
       navigate("/");
     } catch (error) {
+      toast.error("Login Failed");
+      toast.error(error.response.data.message);
       console.log(error.response.data.message);
     }
   }

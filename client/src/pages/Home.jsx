@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,8 +17,11 @@ export default function Home() {
       });
       localStorage.setItem("access_token", data.access_token);
       // localStorage.access_token = creadential;
+      toast.success("Login Success");
       navigate("/");
     } catch (error) {
+      toast.error("Login Failed");
+      toast.error(error.response.data.message);
       console.log(error);
     }
   }
