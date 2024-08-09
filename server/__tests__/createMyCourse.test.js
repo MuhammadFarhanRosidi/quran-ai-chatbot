@@ -20,19 +20,6 @@ beforeAll(async () => {
       },
     ]);
     token = signToken({ id: 1 });
-    await queryInterface.bulkInsert("Chapters", [
-      {
-        nama: "Al-Fil",
-        namaLatin: "al_fil",
-        jumlahAyat: 5,
-        tempatTurun: "Makkiyah",
-        arti: "Gajah",
-        deskripsi: "Lorem ipsum",
-        audioUrl: "http://audio.mp3",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
     await queryInterface.bulkInsert("Courses", [
       {
         title: "Al-Fil",
@@ -45,7 +32,7 @@ beforeAll(async () => {
       },
     ]);
   } catch (error) {
-    console.log(error, "<<< BEFORE");
+    console.log(error);
   }
 });
 
@@ -53,15 +40,6 @@ afterAll(async () => {
   try {
     await queryInterface.bulkDelete(
       "Courses",
-      {},
-      {
-        truncate: true,
-        restartIdentity: true,
-        cascade: true,
-      }
-    );
-    await queryInterface.bulkDelete(
-      "Chapters",
       {},
       {
         truncate: true,
@@ -83,27 +61,25 @@ afterAll(async () => {
   }
 });
 
-describe("DELETE /deleteMyCourse/:id", () => {
+describe("POST /joinCourse/:courseId", () => {
   test("Success 200", async () => {
     const response = await request(app)
-      .delete("/deleteMyCourse/1")
+      .post("/joinCourse/1")
+      .send({
+        title: "Al-Fil",
+        description:
+          "Surat ini terdiri atas 5 ayat, termasuk golongan surat-surat Makkiyyah, diturunkan sesudah surat Al Kaafirun.",
+        price: null,
+        chapterId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
       .set("Authorization", "Bearer " + token);
-    console.log(token, "<<<< test");
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty(
       "message",
-      "Course successfully deleted"
+      "Course successfully added to user"
     );
-  });
-  test("Failed 404", async () => {
-    const response = await request(app)
-      .delete("/deleteMyCourse/4")
-      .set("Authorization", "Bearer " + token);
-    console.log(response, "FAILED 404");
-    console.log(token, "TOKEN 404");
-    expect(response.status).toBe(404);
-    expect(response.body).toBeInstanceOf(Object);
-    expect(response.body).toHaveProperty("message", "Course not found");
   });
 });
