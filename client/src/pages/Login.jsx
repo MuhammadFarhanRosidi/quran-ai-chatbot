@@ -8,6 +8,12 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  if (!email) {
+    toast.error("Email is required");
+  }
+  if (!password) {
+    toast.error("Password is required");
+  }
   async function handlerLogin(e) {
     try {
       e.preventDefault();
@@ -81,7 +87,6 @@ export default function Login() {
                 type="email"
                 placeholder="email"
                 className="input input-bordered"
-                required
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -93,7 +98,6 @@ export default function Login() {
                 type="password"
                 placeholder="password"
                 className="input input-bordered"
-                required
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

@@ -8,6 +8,12 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  if (!email) {
+    toast.error("Email is required");
+  }
+  if (!password) {
+    toast.error("Password is required");
+  }
   async function handlerRegister(e) {
     try {
       e.preventDefault();
@@ -49,7 +55,6 @@ export default function Register() {
                 type="text"
                 placeholder="username"
                 className="input input-bordered"
-                required
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -61,7 +66,6 @@ export default function Register() {
                 type="email"
                 placeholder="email"
                 className="input input-bordered"
-                required
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -73,7 +77,6 @@ export default function Register() {
                 type="password"
                 placeholder="password"
                 className="input input-bordered"
-                required
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

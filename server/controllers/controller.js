@@ -1,7 +1,7 @@
 const instance = require("../config/axiosInstance");
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const { User, Chapter, Verse, Course, UserCourse } = require("../models/");
+const { User, Chapter, Course, UserCourse } = require("../models/");
 const { OAuth2Client } = require("google-auth-library");
 
 const nodemailer = require("nodemailer");
