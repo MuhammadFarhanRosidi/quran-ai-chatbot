@@ -10,8 +10,9 @@ router.post("/google-login", Controller.googleLogin);
 
 router.post("/quran-chatbot", async (req, res, next) => {
   try {
-    const { verse } = req.body;
-    let data = await gemini(verse);
+    const { message } = req.body;
+    console.log(req.body, "<<< req body");
+    let data = await gemini(message);
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
