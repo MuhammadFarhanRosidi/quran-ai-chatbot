@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --forceExit coverage",
+    "test": "jest --runInBand --forceExit --coverage",
     "dev": "npx nodemon server.js"
   },
   "keywords": [],
