@@ -17,7 +17,6 @@ export default function EditCourse() {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
-      console.log(data.description, "<<<<<<<<<<");
       setDescription(data.description);
     } catch (error) {
       console.log(error.response.data.message);
@@ -29,7 +28,7 @@ export default function EditCourse() {
   }, []);
 
   async function editMyDescriptionCourse(event) {
-    event.preventDefault(); // Mencegah perilaku default form submission
+    event.preventDefault();
     try {
       const { data } = await instance({
         url: `/editMyCourse/${id}`,
@@ -59,7 +58,7 @@ export default function EditCourse() {
             className="peer block min-h-[auto] w-[90%] rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
             id="exampleFormControlTextarea13"
             rows={3}
-            value={description} // Menggunakan value untuk sinkronisasi state
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>

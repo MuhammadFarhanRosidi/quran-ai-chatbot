@@ -134,59 +134,18 @@ class Controller {
       next(error);
     }
   }
-  // static async handleJoinCourse(req, res, next) {
-  //   try {
-  //     const { courseId } = req.params;
-  //     const userId = req.user.id;
-  //     const courseByIdResponse = await instance({
-  //       url: `/${courseId}`,
-  //       method: "GET",
-  //     });
-  //     const courseById = courseByIdResponse.data;
-  //     const [chapter, chapterCreated] = await Chapter.findOrCreate({
-  //       where: { id: courseById.number },
-  //       defaults: {
-  //         nama: courseById.nama,
-  //         namaLatin: courseById.nama_latin,
-  //         jumlahAyat: courseById.jumlah_ayat,
-  //         tempatTurun: courseById.tempat_turun,
-  //         arti: courseById.arti,
-  //         deskripsi: courseById.deskripsi,
-  //         audioUrl: courseById.audio,
-  //       },
-  //     });
-  //     const [course, created] = await Course.findOrCreate({
-  //       where: { chapterId: chapter.id },
-  //       defaults: {
-  //         title: courseById.nama,
-  //         description: courseById.deskripsi,
-  //         chapterId: chapter.id,
-  //       },
-  //     });
-  //     await UserCourse.create({
-  //       userId,
-  //       courseId: course.id,
-  //       isSubscribe: false,
-  //     });
-  //     res.status(201).json({ message: "Course successfully added to user" });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
   static async handleJoinCourse(req, res, next) {
     try {
-      const { courseId } = req.params; // Menggunakan `number` dari chapter sebagai `courseId`
+      const { courseId } = req.params;
       const userId = req.user.id;
 
-      // Mendapatkan data course berdasarkan `courseId`
       const courseByIdResponse = await instance({
         url: `/surah/${courseId}`,
         method: "GET",
       });
 
-      const courseById = courseByIdResponse.data.data; // Sesuaikan dengan struktur data API
+      const courseById = courseByIdResponse.data.data;
 
-      // Simpan data chapter jika belum ada
       const [chapter, chapterCreated] = await Chapter.findOrCreate({
         where: { id: courseById.number },
         defaults: {
@@ -200,7 +159,6 @@ class Controller {
         },
       });
 
-      // Simpan data course jika belum ada
       const [course, created] = await Course.findOrCreate({
         where: { chapterId: chapter.id },
         defaults: {
@@ -210,7 +168,6 @@ class Controller {
         },
       });
 
-      // Buat relasi antara user dan course
       await UserCourse.create({
         userId,
         courseId: course.id,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import instance from "../config/axiosInstance";
 
 const QuranChatbot = () => {
@@ -28,7 +28,7 @@ const QuranChatbot = () => {
         url: "/quran-chatbot",
         method: "POST",
         data: { message: userInput.trim() },
-        timeout: 10000, // Meningkatkan timeout menjadi 10 detik
+        timeout: 10000,
       });
 
       const botMessage = { type: "bot", content: response };

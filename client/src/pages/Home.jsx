@@ -16,7 +16,6 @@ export default function Home() {
         },
       });
       localStorage.setItem("access_token", data.access_token);
-      // localStorage.access_token = creadential;
       toast.success("Login Success");
       navigate("/");
     } catch (error) {
@@ -31,11 +30,11 @@ export default function Home() {
         "287364404368-f49dj7sv08k07ld12oouc1u9u9n64q16.apps.googleusercontent.com",
       callback: handleCredentialResponse,
     });
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
-    );
-    google.accounts.id.prompt(); // also display the One Tap dialog
+    google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+    google.accounts.id.prompt();
   }, []);
   return (
     <div className="hero bg-base-200 min-h-screen">
