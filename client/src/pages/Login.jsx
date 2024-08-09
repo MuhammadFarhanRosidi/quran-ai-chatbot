@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../config/axiosInstance";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,6 +28,37 @@ export default function Login() {
       console.log(error.response.data.message);
     }
   }
+  async function handleCredentialResponse({ credential }) {
+    try {
+      // console.log("Encoded JWT ID token: " + credential);
+      const { data } = await axios({
+        method: "POST",
+        url: "http://localhost:3000/google-login",
+        data: {
+          googleToken: credential,
+        },
+      });
+      localStorage.setItem("access_token", data.access_token);
+      toast.success("Login Success");
+      navigate("/");
+    } catch (error) {
+      toast.error("Login Failed");
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        "287364404368-f49dj7sv08k07ld12oouc1u9u9n64q16.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+    google.accounts.id.prompt();
+  }, []);
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -68,6 +100,7 @@ export default function Login() {
               <button type="submit" className="btn btn-primary">
                 Login
               </button>
+              <div id="buttonDiv"></div>
             </div>
           </form>
         </div>

@@ -7,7 +7,7 @@ export default function Home() {
   const navigate = useNavigate();
   async function handleCredentialResponse({ credential }) {
     try {
-      console.log("Encoded JWT ID token: " + credential);
+      // console.log("Encoded JWT ID token: " + credential);
       const { data } = await axios({
         method: "POST",
         url: "http://localhost:3000/google-login",
