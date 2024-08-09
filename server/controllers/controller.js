@@ -4,6 +4,25 @@ const { signToken } = require("../helpers/jwt");
 const { User, Chapter, Verse, Course, UserCourse } = require("../models/");
 const { OAuth2Client } = require("google-auth-library");
 
+const nodemailer = require("nodemailer");
+
+async function sendEmail(email) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "muhfarros28@gmail.com", // Ganti dengan email asli pengirim
+      pass: "xscregntbomfgvqe",
+    },
+  });
+
+  await transporter.sendMail({
+    from: "muhfarros28@gmail.com", // Sesuaikan dengan pengirim yang sesuai
+    to: email, // Email tujuan pengguna yang login
+    subject: "Thank you for using My Quran",
+    text: "Let's read the Quran every day",
+  });
+}
+
 class Controller {
   static async register(req, res, next) {
     try {
@@ -70,6 +89,7 @@ class Controller {
             Date.now().toString() + "-DUMMY-" + Math.random().toFixed(0),
         },
       });
+      await sendEmail(email);
       const access_token = signToken({ id: user.id });
       res.status(200).json({ access_token });
     } catch (error) {

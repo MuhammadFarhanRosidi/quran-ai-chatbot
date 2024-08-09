@@ -17,6 +17,7 @@ export default function Home() {
       });
       localStorage.setItem("access_token", data.access_token);
       toast.success("Login Success");
+      toast.success("We have send email for you");
       navigate("/");
     } catch (error) {
       toast.error("Login Failed");
